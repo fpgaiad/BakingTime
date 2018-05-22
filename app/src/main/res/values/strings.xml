@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Baking Time</string>
+    <string name="servings_label">servings:</string>
+    <string name="callback_error">Error with Json Callback - Recipes</string>
 </resources>
