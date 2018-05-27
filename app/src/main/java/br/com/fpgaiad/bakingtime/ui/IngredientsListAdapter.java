@@ -15,7 +15,7 @@ import br.com.fpgaiad.bakingtime.entities.Ingredient;
 public class IngredientsListAdapter extends
         RecyclerView.Adapter<IngredientsListAdapter.IngredientsListViewHolder> {
 
-    private final List<Ingredient> ingredientList;
+    private List<Ingredient> ingredientList;
 
     public IngredientsListAdapter(List<Ingredient> ingredientList) {
         this.ingredientList = ingredientList;

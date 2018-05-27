@@ -38,10 +38,13 @@ public class RecipeDetailFragment extends Fragment {
 
         rootView.findViewById(R.id.tv_ingredients_label);
         RecyclerView ingredientsRecyclerView = rootView.findViewById(R.id.ingredients_recycler_view);
-        ingredientsRecyclerView.setNestedScrollingEnabled(false);
+        RecyclerView stepsRecyclerView = rootView.findViewById(R.id.steps_recycler_view);
 
         ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ingredientsRecyclerView.setAdapter(new IngredientsListAdapter(mRecipe.getIngredients()));
+
+        stepsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        stepsRecyclerView.setAdapter(new StepsListAdapter(mRecipe.getSteps()));
 
         return rootView;
     }

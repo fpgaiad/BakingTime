@@ -5,6 +5,8 @@
     <string name="recipe_index_extra">recipe</string>
     <string name="simple_dot">.</string>
     <string name="recipe_name">Recipe Name</string>
-    <string name="ingredients_label">INGREDIENTS</string>
+    <string name="ingredients_label">RECIPE INGREDIENTS</string>
     <string name="current_recipe_key">current_recipe</string>
+    <string name="step_label">STEP .</string>
+    <string name="subtitle_color">#666666</string>
 </resources>
