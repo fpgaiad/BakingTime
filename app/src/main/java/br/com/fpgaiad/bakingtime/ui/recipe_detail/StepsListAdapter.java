@@ -1,14 +1,13 @@
-package br.com.fpgaiad.bakingtime.ui;
+package br.com.fpgaiad.bakingtime.ui.recipe_detail;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.List;
 
 import br.com.fpgaiad.bakingtime.R;
@@ -17,9 +16,11 @@ import br.com.fpgaiad.bakingtime.entities.Step;
 public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.StepsListViewHolder> {
 
     private List<Step> stepList;
+    private StepsListItemClickListener mOnClickListener;
 
-    public StepsListAdapter(List<Step> stepList) {
+    public StepsListAdapter(List<Step> stepList, StepsListItemClickListener listener) {
         this.stepList = stepList;
+        this.mOnClickListener = listener;
     }
 
     @NonNull
@@ -41,7 +42,7 @@ public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.Step
         if (position != 0) {
             holder.stepLabel.setVisibility(View.VISIBLE);
             holder.stepIndex.setVisibility(View.VISIBLE);
-            holder.stepIndex.setText(String.valueOf(step.getId()));
+            holder.stepIndex.setText(String.valueOf(position));
 
         } else {
             holder.stepName.setAllCaps(true);
@@ -55,7 +56,7 @@ public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.Step
         return stepList == null ? 0 : stepList.size();
     }
 
-    class StepsListViewHolder extends RecyclerView.ViewHolder {
+    class StepsListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView stepIndex;
         TextView stepLabel;
@@ -67,6 +68,19 @@ public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.Step
             stepName = itemView.findViewById(R.id.tv_step_name);
             stepLabel = itemView.findViewById(R.id.tv_step_label);
             stepIndex = itemView.findViewById(R.id.tv_step_index);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            mOnClickListener.onListItemClick(getAdapterPosition());
+        }
+
+
     }
+    public interface StepsListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
+    }
+
 }

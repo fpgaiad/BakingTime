@@ -1,4 +1,4 @@
-package br.com.fpgaiad.bakingtime.ui;
+package br.com.fpgaiad.bakingtime.ui.main;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -19,10 +19,10 @@ public class RecipesListAdapter extends
 
     private Context context;
     private List<Recipe> recipesList;
-    private final ListItemClickListener mOnClickListener;
+    private final RecipeListItemClickListener mOnClickListener;
 
     public RecipesListAdapter(Context context,
-                              List<Recipe> recipesList, ListItemClickListener listener) {
+                              List<Recipe> recipesList, RecipeListItemClickListener listener) {
         this.context = context;
         this.recipesList = recipesList;
         this.mOnClickListener = listener;
@@ -53,10 +53,6 @@ public class RecipesListAdapter extends
         return recipesList == null ? 0 : recipesList.size();
     }
 
-    public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
-    }
-
 
     class RecipesListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -78,4 +74,9 @@ public class RecipesListAdapter extends
             mOnClickListener.onListItemClick(getAdapterPosition());
         }
     }
+
+    public interface RecipeListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
+    }
+
 }

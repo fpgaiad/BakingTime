@@ -1,4 +1,4 @@
-package br.com.fpgaiad.bakingtime.ui;
+package br.com.fpgaiad.bakingtime.ui.recipe_detail;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -31,6 +31,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .add(R.id.detail_container, detailFragment)
                 .commit();
+
+
     }
 
 }

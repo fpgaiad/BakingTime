@@ -1,4 +1,4 @@
-package br.com.fpgaiad.bakingtime.ui;
+package br.com.fpgaiad.bakingtime.ui.main;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -21,9 +20,10 @@ import com.koushikdutta.ion.Ion;
 import br.com.fpgaiad.bakingtime.R;
 import br.com.fpgaiad.bakingtime.entities.Recipe;
 import br.com.fpgaiad.bakingtime.entities.RecipesResponse;
+import br.com.fpgaiad.bakingtime.ui.recipe_detail.RecipeDetailActivity;
 
 public class MainActivity extends AppCompatActivity implements
-        RecipesListAdapter.ListItemClickListener {
+        RecipesListAdapter.RecipeListItemClickListener {
 
 //    private Toast mToast;
     private RecyclerView mainRecyclerView;

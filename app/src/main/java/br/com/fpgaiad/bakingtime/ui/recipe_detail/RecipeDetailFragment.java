@@ -1,4 +1,4 @@
-package br.com.fpgaiad.bakingtime.ui;
+package br.com.fpgaiad.bakingtime.ui.recipe_detail;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,14 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import br.com.fpgaiad.bakingtime.R;
 import br.com.fpgaiad.bakingtime.entities.Recipe;
 
-public class RecipeDetailFragment extends Fragment {
+public class RecipeDetailFragment extends Fragment
+        implements StepsListAdapter.StepsListItemClickListener {
 
     private Recipe mRecipe;
+    private Toast mToast;
 
     // Empty constructor required
     public RecipeDetailFragment() {
@@ -44,7 +46,7 @@ public class RecipeDetailFragment extends Fragment {
         ingredientsRecyclerView.setAdapter(new IngredientsListAdapter(mRecipe.getIngredients()));
 
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        stepsRecyclerView.setAdapter(new StepsListAdapter(mRecipe.getSteps()));
+        stepsRecyclerView.setAdapter(new StepsListAdapter(mRecipe.getSteps(), this));
 
         return rootView;
     }
@@ -57,6 +59,17 @@ public class RecipeDetailFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(getString(R.string.current_recipe_key), mRecipe);
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        String toastMessage = "Item #" + clickedItemIndex + " clicked";
+        mToast = Toast.makeText(getContext(), toastMessage, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 }
 
