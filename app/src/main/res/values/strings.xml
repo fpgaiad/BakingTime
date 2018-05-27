@@ -2,4 +2,9 @@
     <string name="app_name">Baking Time</string>
     <string name="servings_label">servings:</string>
     <string name="callback_error">Error with Json Callback - Recipes</string>
+    <string name="recipe_index_extra">recipe</string>
+    <string name="simple_dot">.</string>
+    <string name="recipe_name">Recipe Name</string>
+    <string name="ingredients_label">INGREDIENTS</string>
+    <string name="current_recipe_key">current_recipe</string>
 </resources>

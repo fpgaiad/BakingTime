@@ -14,13 +14,15 @@ import java.util.List;
 import br.com.fpgaiad.bakingtime.R;
 import br.com.fpgaiad.bakingtime.entities.Recipe;
 
-public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.RecipesListViewHolder>{
+public class RecipesListAdapter extends
+        RecyclerView.Adapter<RecipesListAdapter.RecipesListViewHolder>{
 
     private Context context;
     private List<Recipe> recipesList;
     private final ListItemClickListener mOnClickListener;
 
-    public RecipesListAdapter(Context context, List<Recipe> recipesList, ListItemClickListener listener) {
+    public RecipesListAdapter(Context context,
+                              List<Recipe> recipesList, ListItemClickListener listener) {
         this.context = context;
         this.recipesList = recipesList;
         this.mOnClickListener = listener;
@@ -29,7 +31,8 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
     @NonNull
     @Override
     public RecipesListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recipes_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recipes_list_item, parent, false);
         return new RecipesListViewHolder(view);
     }
 
@@ -37,11 +40,11 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
     public void onBindViewHolder(@NonNull RecipesListViewHolder holder, int position) {
 
         Recipe recipe = recipesList.get(position);
+        String recipeId = String.valueOf(recipe.getId()) + context.getString(R.string.simple_dot);
+        String servings = context.getString(R.string.servings_label) + recipe.getServings();
 
-        String recipeId = String.valueOf(recipe.getId());
         holder.tvRecipeId.setText(recipeId);
         holder.tvRecipeName.setText(recipe.getName());
-        String servings = context.getString(R.string.servings_label) + recipe.getServings();
         holder.tvRecipeServings.setText(servings);
     }
 
