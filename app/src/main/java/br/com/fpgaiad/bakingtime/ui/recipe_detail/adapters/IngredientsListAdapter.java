@@ -1,4 +1,4 @@
-package br.com.fpgaiad.bakingtime.ui.recipe_detail;
+package br.com.fpgaiad.bakingtime.ui.recipe_detail.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

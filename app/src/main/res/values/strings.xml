@@ -2,11 +2,16 @@
     <string name="app_name">Baking Time</string>
     <string name="servings_label">servings:</string>
     <string name="callback_error">Error with Json Callback - Recipes</string>
-    <string name="recipe_index_extra">recipe</string>
+    <string name="recipe_extra">recipe</string>
+    <string name="step_extra">step</string>
     <string name="simple_dot">.</string>
     <string name="recipe_name">Recipe Name</string>
     <string name="ingredients_label">RECIPE INGREDIENTS</string>
     <string name="current_recipe_key">current_recipe</string>
-    <string name="step_label">STEP .</string>
+    <string name="step_label">STEP</string>
     <string name="subtitle_color">#666666</string>
+    <string name="previous_button">PREVIOUS</string>
+    <string name="next_button">NEXT</string>
+    <string name="step_index_extra">step_index</string>
+    <string name="divisor_step_label_sequence">/</string>
 </resources>

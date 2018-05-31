@@ -1,5 +1,6 @@
-package br.com.fpgaiad.bakingtime.ui.recipe_detail;
+package br.com.fpgaiad.bakingtime.ui.recipe_detail.adapters;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +38,9 @@ public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.Step
     @Override
     public void onBindViewHolder(@NonNull StepsListViewHolder holder, int position) {
         Step step = stepList.get(position);
-        holder.stepName.setText(step.getShortDescription());
+        //Deleting the final dot from "short description"
+        String fixedShortDescription = fixShortDescription(step.getShortDescription());
+        holder.stepName.setText(fixedShortDescription);
 
         if (position != 0) {
             holder.stepLabel.setVisibility(View.VISIBLE);
@@ -47,8 +50,17 @@ public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.Step
         } else {
             holder.stepName.setAllCaps(true);
             holder.stepName.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.stepName.setTextColor(Color.parseColor("#777777"));
         }
 
+    }
+
+    private String fixShortDescription(String shortDescription) {
+        int lastCutIndex = shortDescription.lastIndexOf(".");
+        if (lastCutIndex != (-1)) {
+            return shortDescription.substring(0, lastCutIndex);
+        }
+        return shortDescription;
     }
 
     @Override

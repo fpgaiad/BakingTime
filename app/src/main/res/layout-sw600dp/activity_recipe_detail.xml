@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/two_pane_mode"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".ui.recipe_detail.activity.RecipeDetailActivity">
+
+    <!--For recipe detail fragment-->
+    <FrameLayout
+        android:id="@+id/detail_container"
+        android:layout_width="400dp"
+        android:layout_height="match_parent" />
+
+    <!--Small divider-->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" />
+
+    <!--For recipe steps fragment-->
+    <FrameLayout
+        android:id="@+id/step_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

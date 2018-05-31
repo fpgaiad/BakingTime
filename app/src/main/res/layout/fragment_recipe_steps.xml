@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tv_step_title_sequence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="12dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_step_description_sequence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="12dp"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_step_pre_label_sequence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_step_divisor_label_sequence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="2sp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2sp"
+                android:layout_marginStart="2dp"
+                android:text="@string/divisor_step_label_sequence"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_step_post_label_sequence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/button_border" />
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_previous"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:onClick="goToPreviousStep"
+                android:text="@string/previous_button"
+                android:textColor="@color/subtitle" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/button_border" />
+
+            <Button
+                android:id="@+id/btn_next"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:onClick="goToNextStep"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="@string/next_button"
+                android:textColor="@color/subtitle" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_next_solo"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="52dp"
+            android:onClick="goToNextStep"
+            android:padding="0dp"
+            android:text="@string/next_button"
+            android:textColor="@color/subtitle" />
+
+        <Button
+            android:id="@+id/btn_prev_solo"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="52dp"
+            android:onClick="goToPreviousStep"
+            android:padding="0dp"
+            android:text="@string/previous_button"
+            android:textColor="@color/subtitle" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/button_border" />
+
+    </LinearLayout>
+
+</LinearLayout>

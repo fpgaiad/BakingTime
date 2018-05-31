@@ -19,14 +19,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.recipe_detail.RecipeDetailActivity"
+            android:name=".ui.recipe_detail.activity.RecipeDetailActivity"
             android:label="@string/recipe_name"
             android:parentActivityName=".ui.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
         </activity>
-        <activity android:name=".ui.step_detail.RecipeStepsActivity"></activity>
+        <activity
+            android:name=".ui.step_detail.RecipeStepsActivity"
+            android:label="@string/recipe_name"
+            android:parentActivityName=".ui.recipe_detail.activity.RecipeDetailActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.recipe_detail.activity.RecipeDetailActivity" />
+        </activity>
     </application>
 
 </manifest>

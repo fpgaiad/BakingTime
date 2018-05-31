@@ -1,5 +1,6 @@
-package br.com.fpgaiad.bakingtime.ui.recipe_detail;
+package br.com.fpgaiad.bakingtime.ui.recipe_detail.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,12 +14,14 @@ import android.widget.Toast;
 
 import br.com.fpgaiad.bakingtime.R;
 import br.com.fpgaiad.bakingtime.entities.Recipe;
+import br.com.fpgaiad.bakingtime.ui.recipe_detail.adapters.IngredientsListAdapter;
+import br.com.fpgaiad.bakingtime.ui.recipe_detail.adapters.StepsListAdapter;
 
 public class RecipeDetailFragment extends Fragment
         implements StepsListAdapter.StepsListItemClickListener {
 
     private Recipe mRecipe;
-    private Toast mToast;
+    OnStepClickListener mCallback;
 
     // Empty constructor required
     public RecipeDetailFragment() {
@@ -37,10 +40,9 @@ public class RecipeDetailFragment extends Fragment
             return rootView;
         }
 
-
-        rootView.findViewById(R.id.tv_ingredients_label);
         RecyclerView ingredientsRecyclerView = rootView.findViewById(R.id.ingredients_recycler_view);
         RecyclerView stepsRecyclerView = rootView.findViewById(R.id.steps_recycler_view);
+
 
         ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ingredientsRecyclerView.setAdapter(new IngredientsListAdapter(mRecipe.getIngredients()));
@@ -63,13 +65,25 @@ public class RecipeDetailFragment extends Fragment
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
+        mCallback.onStepSelected(clickedItemIndex);
+    }
 
-        if (mToast != null) {
-            mToast.cancel();
+    //Passing clicked item from fragment to it's host activity:
+    //1. Define an interface;
+    public interface OnStepClickListener {
+        void onStepSelected(int position);
+    }
+    //2. Make sure that the host activity has implemented the callback interface
+    //If not implemented, it throws an exception
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnStepClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnStepClickListener");
         }
-        String toastMessage = "Item #" + clickedItemIndex + " clicked";
-        mToast = Toast.makeText(getContext(), toastMessage, Toast.LENGTH_SHORT);
-        mToast.show();
     }
 }
 

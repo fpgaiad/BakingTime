@@ -14,16 +14,18 @@
             android:id="@+id/tv_ingredients_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:textColor="@color/title_color"
             android:textStyle="bold"
-            android:paddingBottom="10dp"
+            android:layout_marginTop="14dp"
             android:text="@string/ingredients_label"
             android:textSize="14sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ingredients_recycler_view"
             android:layout_width="match_parent"
-            android:layout_marginBottom="20dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:nestedScrollingEnabled="false" />
 
         <android.support.v7.widget.RecyclerView
@@ -33,10 +35,10 @@
             android:nestedScrollingEnabled="false" />
 
         <View
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="20dp"
             android:background="@color/divisor" />
 
     </LinearLayout>
