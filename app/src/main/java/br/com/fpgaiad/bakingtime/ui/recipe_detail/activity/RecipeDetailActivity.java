@@ -2,13 +2,11 @@ package br.com.fpgaiad.bakingtime.ui.recipe_detail.activity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class RecipeDetailActivity extends AppCompatActivity
         implements RecipeDetailFragment.OnStepClickListener {
 
     private Recipe recipe;
-    public boolean mTwoPane;
+    public static boolean TwoPane;
     private Step step;
     List<Step> stepList;
     private int stepIndex;
@@ -34,8 +32,16 @@ public class RecipeDetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
 
+        //Used when the Home "<-" button on RecipeStepsActivity is clicked
+        if (RecipeStepsActivity.isChildActivity) {
+            recipe = RecipeStepsActivity.recipe;
+            RecipeStepsActivity.isChildActivity = false;
+        } else {
+            recipe = getIntent().getParcelableExtra(getString(R.string.recipe_extra));
+        }
+
+
         stepIndex = getIntent().getIntExtra(getString(R.string.step_index_extra), 0);
-        recipe = getIntent().getParcelableExtra(getString(R.string.recipe_extra));
         stepList = recipe.getSteps();
 
         ActionBar actionBar = getSupportActionBar();
@@ -45,7 +51,7 @@ public class RecipeDetailActivity extends AppCompatActivity
         }
 
         if (findViewById(R.id.two_pane_mode) != null) {
-            mTwoPane = true;
+            TwoPane = true;
 
             stepsFragment = new RecipeStepsFragment();
             step = recipe.getSteps().get(0);
@@ -60,7 +66,7 @@ public class RecipeDetailActivity extends AppCompatActivity
                     .commit();
 
         } else {
-            mTwoPane = false;
+            TwoPane = false;
         }
 
         RecipeDetailFragment detailFragment = new RecipeDetailFragment();
@@ -69,19 +75,13 @@ public class RecipeDetailActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.detail_container, detailFragment)
                 .commit();
-
     }
 
     @Override
     public void onStepSelected(int position) {
-//        Toast.makeText(this, "Position clicked = " + position, Toast.LENGTH_SHORT)
-//                .show();
-
         step = recipe.getSteps().get(position);
-//        Log.d("###", step.getDescription());
 
-        if (!mTwoPane) {
-
+        if (!TwoPane) {
             Intent intent = new Intent(this, RecipeStepsActivity.class);
             intent.putExtra(getString(R.string.step_extra), step);
             intent.putExtra(getString(R.string.recipe_extra), recipe);
@@ -96,6 +96,8 @@ public class RecipeDetailActivity extends AppCompatActivity
         outState.putParcelable(getString(R.string.current_recipe_key), recipe);
     }
 
+
+    //Methods used here for twoPane mode
     public void goToPreviousStep(View view) {
 
         if (stepIndex > 0) {

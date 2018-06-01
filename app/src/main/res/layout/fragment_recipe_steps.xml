@@ -23,7 +23,13 @@
                     android:id="@+id/iv_media"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:visibility="gone"
                     android:scaleType="centerCrop" />
+
+                <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                    android:id="@+id/player_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
 
                 <TextView
                     android:id="@+id/tv_step_title_sequence"
@@ -39,15 +45,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_step_description_sequence"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginTop="12dp"
-                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -55,12 +52,42 @@
 
     </ScrollView>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:foregroundGravity="top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:gravity="top">
+
+            <TextView
+                android:id="@+id/tv_step_description_sequence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginBottom="24dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:gravity="top"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom"
+        android:layout_gravity="top"
         android:gravity="bottom"
         android:orientation="vertical">
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -99,6 +126,7 @@
 
         </LinearLayout>
 
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -117,8 +145,8 @@
                 android:layout_width="0dp"
                 android:layout_height="52dp"
                 android:layout_weight="1"
-                android:padding="0dp"
                 android:onClick="goToPreviousStep"
+                android:padding="0dp"
                 android:text="@string/previous_button"
                 android:textColor="@color/subtitle" />
 
@@ -132,8 +160,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="52dp"
-                android:onClick="goToNextStep"
                 android:layout_weight="1"
+                android:onClick="goToNextStep"
                 android:padding="0dp"
                 android:text="@string/next_button"
                 android:textColor="@color/subtitle" />
@@ -145,29 +173,25 @@
             android:id="@+id/btn_next_solo"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="52dp"
             android:onClick="goToNextStep"
             android:padding="0dp"
             android:text="@string/next_button"
-            android:textColor="@color/subtitle" />
+            android:textColor="@color/subtitle"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_prev_solo"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="52dp"
             android:onClick="goToPreviousStep"
             android:padding="0dp"
             android:text="@string/previous_button"
-            android:textColor="@color/subtitle" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/button_border" />
+            android:textColor="@color/subtitle"
+            android:visibility="gone" />
 
     </LinearLayout>
+
 
 </LinearLayout>

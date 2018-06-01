@@ -14,4 +14,6 @@
     <string name="next_button">NEXT</string>
     <string name="step_index_extra">step_index</string>
     <string name="divisor_step_label_sequence">/</string>
+    <string name="current_step_key">current_step</string>
+    <string name="current_step_index_key">current_step_index</string>
 </resources>

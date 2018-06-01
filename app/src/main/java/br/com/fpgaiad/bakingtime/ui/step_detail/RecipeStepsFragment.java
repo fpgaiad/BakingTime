@@ -1,13 +1,12 @@
 package br.com.fpgaiad.bakingtime.ui.step_detail;
 
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
+
 import java.util.List;
 
 import br.com.fpgaiad.bakingtime.R;
 import br.com.fpgaiad.bakingtime.entities.Recipe;
 import br.com.fpgaiad.bakingtime.entities.Step;
+import br.com.fpgaiad.bakingtime.ui.recipe_detail.activity.RecipeDetailActivity;
 
 public class RecipeStepsFragment extends Fragment {
 
@@ -27,6 +40,9 @@ public class RecipeStepsFragment extends Fragment {
     private Recipe mRecipe;
     private int mStepIndex;
     private List<Step> stepList;
+    boolean isUrlEmpty;
+    SimpleExoPlayer mExoPlayer;
+    SimpleExoPlayerView mPlayerView;
 
     // Empty constructor required
     public RecipeStepsFragment() {
@@ -40,7 +56,15 @@ public class RecipeStepsFragment extends Fragment {
         final View rootView = inflater
                 .inflate(R.layout.fragment_recipe_steps, container, false);
 
+        if (savedInstanceState != null) {
+            mRecipe = savedInstanceState.getParcelable(getString(R.string.current_recipe_key));
+            mStep = (Step) savedInstanceState.getSerializable(getString(R.string.current_step_key));
+            mStepIndex = savedInstanceState.getInt(getString(R.string.current_step_index_key));
+            return null;
+        }
+
         ImageView imageMedia = rootView.findViewById(R.id.iv_media);
+        mPlayerView = rootView.findViewById(R.id.player_view);
         TextView stepTitle = rootView.findViewById(R.id.tv_step_title_sequence);
         TextView stepPreLabelSequence = rootView.findViewById(R.id.tv_step_pre_label_sequence);
         TextView stepPostLabelSequence = rootView.findViewById(R.id.tv_step_post_label_sequence);
@@ -69,6 +93,13 @@ public class RecipeStepsFragment extends Fragment {
             nextButtonSolo.setVisibility(View.VISIBLE);
         }
 
+        //Verify if there is an url for the current step
+        isUrlEmpty = (mStep.getVideoURL().equals(""));
+        if (isUrlEmpty) {
+            imageMedia.setVisibility(View.VISIBLE);
+            mPlayerView.setVisibility(View.GONE);
+        }
+
         if (mStepIndex == (stepList.size() - 1)) {
             linearLayoutButton.setVisibility(View.GONE);
             prevButtonSolo.setVisibility(View.VISIBLE);
@@ -81,7 +112,27 @@ public class RecipeStepsFragment extends Fragment {
         stepTitle.setText(fixedShortDescription);
         stepDescription.setText(fixedDescription);
 
+//        mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.place_holder));
+        initializePlayer(Uri.parse(mStep.getVideoURL()));
+
         return rootView;
+    }
+
+    private void initializePlayer(Uri mediaUri) {
+        if (mExoPlayer == null && !isUrlEmpty) {
+            //Create an instance of Exoplayer
+            TrackSelector trackSelector = new DefaultTrackSelector();
+            LoadControl loadControl = new DefaultLoadControl();
+            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
+            mPlayerView.setPlayer(mExoPlayer);
+
+            //Prepare the MediaSource
+            String userAgent = Util.getUserAgent(getContext(), "Baking Time");
+            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
+                    getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+            mExoPlayer.prepare(mediaSource);
+            mExoPlayer.setPlayWhenReady(true);
+        }
     }
 
     private String fixShortDescription() {
@@ -111,5 +162,39 @@ public class RecipeStepsFragment extends Fragment {
 
     public void setStepIndex(int stepIndex) {
         mStepIndex = stepIndex;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(getString(R.string.current_recipe_key), mRecipe);
+        outState.putSerializable(getString(R.string.current_step_key), mStep);
+        outState.putInt(getString(R.string.current_step_index_key), mStepIndex);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        releasePlayer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        releasePlayer();
+    }
+
+    private void releasePlayer() {
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
     }
 }

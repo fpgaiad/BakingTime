@@ -37,7 +37,7 @@ public class RecipeDetailFragment extends Fragment
 
         if (savedInstanceState != null) {
             mRecipe = savedInstanceState.getParcelable(getString(R.string.current_recipe_key));
-            return rootView;
+            return null;
         }
 
         RecyclerView ingredientsRecyclerView = rootView.findViewById(R.id.ingredients_recycler_view);

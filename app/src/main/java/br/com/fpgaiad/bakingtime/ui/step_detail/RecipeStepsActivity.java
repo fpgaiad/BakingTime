@@ -16,16 +16,19 @@ import br.com.fpgaiad.bakingtime.entities.Step;
 public class RecipeStepsActivity extends AppCompatActivity {
 
     int stepIndex;
-    Recipe recipe;
+    public static Recipe recipe;
     Step step;
     List<Step> stepList;
     RecipeStepsFragment stepsFragment;
     FragmentManager fragmentManager;
+    public static boolean isChildActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_steps);
+
+        isChildActivity = true;
 
         step = (Step) getIntent().getSerializableExtra(getString(R.string.step_extra));
         recipe = getIntent().getParcelableExtra(getString(R.string.recipe_extra));
