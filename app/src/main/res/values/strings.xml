@@ -16,4 +16,6 @@
     <string name="divisor_step_label_sequence">/</string>
     <string name="current_step_key">current_step</string>
     <string name="current_step_index_key">current_step_index</string>
+    <string name="appwidget_text">Baking App</string>
+    <string name="add_widget">Add widget</string>
 </resources>

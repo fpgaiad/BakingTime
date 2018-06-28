@@ -29,11 +29,26 @@
         <activity
             android:name=".ui.step_detail.RecipeStepsActivity"
             android:label="@string/recipe_name"
-            android:parentActivityName=".ui.recipe_detail.activity.RecipeDetailActivity" >
+            android:parentActivityName=".ui.recipe_detail.activity.RecipeDetailActivity"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|screenSize|keyboardHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.recipe_detail.activity.RecipeDetailActivity" />
         </activity>
+
+        <receiver android:name=".BakingWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_app_widget_info" />
+        </receiver>
+
+        <service android:name=".BakingToggleService" />
+
     </application>
 
 </manifest>

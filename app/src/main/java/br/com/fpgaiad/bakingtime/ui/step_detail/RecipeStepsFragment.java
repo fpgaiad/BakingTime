@@ -2,6 +2,7 @@ package br.com.fpgaiad.bakingtime.ui.step_detail;
 
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
@@ -36,6 +37,9 @@ import br.com.fpgaiad.bakingtime.ui.recipe_detail.activity.RecipeDetailActivity;
 
 public class RecipeStepsFragment extends Fragment {
 
+    public static final String RECIPE = "recipe";
+    public static final String STEP = "step";
+    public static final String STEP_INDEX = "stepIndex";
     private Step mStep;
     private Recipe mRecipe;
     private int mStepIndex;
@@ -43,9 +47,36 @@ public class RecipeStepsFragment extends Fragment {
     boolean isUrlEmpty;
     SimpleExoPlayer mExoPlayer;
     SimpleExoPlayerView mPlayerView;
+    private TextView stepPreLabelSequence;
+    private TextView stepPostLabelSequence;
+    private ImageView imageMedia;
+    private TextView stepTitle;
+    private TextView stepDescription;
+    private String fixedShortDescription;
+    private String fixedDescription;
 
-    // Empty constructor required
-    public RecipeStepsFragment() {
+
+    public static RecipeStepsFragment newInstance(Recipe recipe, Step step, int stepIndex) {
+        RecipeStepsFragment stepsFragment = new RecipeStepsFragment();
+
+        // Supply index input as an argument.
+        Bundle args = new Bundle();
+        args.putParcelable(RECIPE, recipe);
+        args.putSerializable(STEP, step);
+        args.putInt(STEP_INDEX, stepIndex);
+        stepsFragment.setArguments(args);
+
+        return stepsFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mRecipe = getArguments().getParcelable(RECIPE);
+            mStep = (Step) getArguments().getSerializable(STEP);
+            mStepIndex = getArguments().getInt(STEP_INDEX);
+        }
     }
 
     @Nullable
@@ -56,19 +87,27 @@ public class RecipeStepsFragment extends Fragment {
         final View rootView = inflater
                 .inflate(R.layout.fragment_recipe_steps, container, false);
 
-        if (savedInstanceState != null) {
-            mRecipe = savedInstanceState.getParcelable(getString(R.string.current_recipe_key));
-            mStep = (Step) savedInstanceState.getSerializable(getString(R.string.current_step_key));
-            mStepIndex = savedInstanceState.getInt(getString(R.string.current_step_index_key));
-            return null;
-        }
+//        if (savedInstanceState != null) {
+//            mRecipe = savedInstanceState.getParcelable(getString(R.string.current_recipe_key));
+//            mStep = (Step) savedInstanceState.getSerializable(getString(R.string.current_step_key));
+//            mStepIndex = savedInstanceState.getInt(getString(R.string.current_step_index_key));
+//
+//            //Setting values
+//            stepPreLabelSequence.setText(String.valueOf(mStepIndex));
+//            stepPostLabelSequence.setText(String.valueOf(stepList.size() - 1));
+//            imageMedia.setImageResource(R.drawable.place_holder);
+//            stepTitle.setText(fixedShortDescription);
+//            stepDescription.setText(fixedDescription);
+//
+//            return null;
+//        }
 
-        ImageView imageMedia = rootView.findViewById(R.id.iv_media);
+        imageMedia = rootView.findViewById(R.id.iv_media);
         mPlayerView = rootView.findViewById(R.id.player_view);
-        TextView stepTitle = rootView.findViewById(R.id.tv_step_title_sequence);
-        TextView stepPreLabelSequence = rootView.findViewById(R.id.tv_step_pre_label_sequence);
-        TextView stepPostLabelSequence = rootView.findViewById(R.id.tv_step_post_label_sequence);
-        TextView stepDescription = rootView.findViewById(R.id.tv_step_description_sequence);
+        stepTitle = rootView.findViewById(R.id.tv_step_title_sequence);
+        stepPreLabelSequence = rootView.findViewById(R.id.tv_step_pre_label_sequence);
+        stepPostLabelSequence = rootView.findViewById(R.id.tv_step_post_label_sequence);
+        stepDescription = rootView.findViewById(R.id.tv_step_description_sequence);
         TextView divisor = rootView.findViewById(R.id.tv_step_divisor_label_sequence);
         View linearLayoutButton = rootView.findViewById(R.id.linear_layout_button);
         Button nextButtonSolo = rootView.findViewById(R.id.btn_next_solo);
@@ -78,10 +117,10 @@ public class RecipeStepsFragment extends Fragment {
         stepList = mRecipe.getSteps();
 
         //Hiding the step number in the text "description"
-        String fixedDescription = fixDescription();
+        fixedDescription = fixDescription();
 
         //Hiding the last dot in the text "short description"
-        String fixedShortDescription = fixShortDescription();
+        fixedShortDescription = fixShortDescription();
 
         if (mStepIndex == 0) {
             //Hiding step sequence and recipe description in "Recipe Introduction" layouts
@@ -145,23 +184,12 @@ public class RecipeStepsFragment extends Fragment {
         return rawDescription;
     }
 
+    @NonNull
     private String fixDescription() {
         String rawDescription = mStep.getDescription();
         int firstDotIndex = rawDescription.indexOf(".");
         int firstCutPosition = firstDotIndex + 2;
         return rawDescription.substring(firstCutPosition);
-    }
-
-    public void setStep(Step step) {
-        mStep = step;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        mRecipe = recipe;
-    }
-
-    public void setStepIndex(int stepIndex) {
-        mStepIndex = stepIndex;
     }
 
     @Override
