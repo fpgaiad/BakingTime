@@ -5,51 +5,31 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
+import android.os.Bundle;
 import android.widget.RemoteViews;
-
-import com.google.gson.Gson;
-
-import br.com.fpgaiad.bakingtime.entities.Recipe;
 import br.com.fpgaiad.bakingtime.ui.main.MainActivity;
 
-/**
- * Implementation of App Widget functionality.
- */
 public class BakingWidgetProvider extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+    private void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
+        //Set up the intent that starts the BakingIngredientsService
+        Intent intentService = new Intent(context, BakingIngredientsService.class);
 
+        //RemoteViews object
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        //Set up the RemoteViews object to use a RemoteViews adapter
+        remoteViews.setRemoteAdapter(R.id.widget_list_view, intentService);
 
-        // Create an Intent to launch MainActivity when clicked
-        Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-        views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
-
-
-
-        // Create an Intent to switch between recipes list ingredients, using BakingToggleService class
-//        Intent toggleRecipeIntent = new Intent(context, BakingToggleService.class);
-//        toggleRecipeIntent.setAction(BakingToggleService.ACTION_TOGGLE_RECIPE);
-//        PendingIntent toggleRecipePendingIntent = PendingIntent.getService(
-//                context,
-//                0,
-//                toggleRecipeIntent,
-//                PendingIntent.FLAG_UPDATE_CURRENT);
-//        views.setOnClickPendingIntent(R.id.appwidget_text, toggleRecipePendingIntent);
+        //Intent to launch MainActivity when clicked
+        Intent intentStartsMainActivity = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intentStartsMainActivity, 0);
+        remoteViews.setOnClickPendingIntent(R.id.widget_main_layout, pendingIntent);
 
         // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
 
     @Override
@@ -68,6 +48,12 @@ public class BakingWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+    @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+        updateAppWidget(context, appWidgetManager, appWidgetId);
     }
 }
 

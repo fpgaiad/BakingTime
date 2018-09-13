@@ -47,7 +47,9 @@
                 android:resource="@xml/baking_app_widget_info" />
         </receiver>
 
-        <service android:name=".BakingToggleService" />
+        <service
+            android:name=".BakingIngredientsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
     </application>
 

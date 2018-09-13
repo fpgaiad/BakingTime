@@ -36,6 +36,7 @@ public abstract class BaseStepActivity extends AppCompatActivity {
         RecipeStepsFragment recipeStepsFragment = RecipeStepsFragment.newInstance(recipe, step, index);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.step_container, recipeStepsFragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
     }
 }

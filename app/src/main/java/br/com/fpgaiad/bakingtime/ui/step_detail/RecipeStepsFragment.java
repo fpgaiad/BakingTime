@@ -40,33 +40,25 @@ public class RecipeStepsFragment extends Fragment {
     public static final String RECIPE = "recipe";
     public static final String STEP = "step";
     public static final String STEP_INDEX = "stepIndex";
-    private Step mStep;
-    private Recipe mRecipe;
-    private int mStepIndex;
-    private List<Step> stepList;
+    public Step mStep;
+    public Recipe mRecipe;
+    public int mStepIndex;
     boolean isUrlEmpty;
     SimpleExoPlayer mExoPlayer;
     SimpleExoPlayerView mPlayerView;
-    private TextView stepPreLabelSequence;
-    private TextView stepPostLabelSequence;
-    private ImageView imageMedia;
-    private TextView stepTitle;
-    private TextView stepDescription;
-    private String fixedShortDescription;
-    private String fixedDescription;
 
 
     public static RecipeStepsFragment newInstance(Recipe recipe, Step step, int stepIndex) {
-        RecipeStepsFragment stepsFragment = new RecipeStepsFragment();
+        RecipeStepsFragment recipeStepsFragment = new RecipeStepsFragment();
 
         // Supply index input as an argument.
         Bundle args = new Bundle();
         args.putParcelable(RECIPE, recipe);
         args.putSerializable(STEP, step);
         args.putInt(STEP_INDEX, stepIndex);
-        stepsFragment.setArguments(args);
+        recipeStepsFragment.setArguments(args);
 
-        return stepsFragment;
+        return recipeStepsFragment;
     }
 
     @Override
@@ -87,40 +79,23 @@ public class RecipeStepsFragment extends Fragment {
         final View rootView = inflater
                 .inflate(R.layout.fragment_recipe_steps, container, false);
 
-//        if (savedInstanceState != null) {
-//            mRecipe = savedInstanceState.getParcelable(getString(R.string.current_recipe_key));
-//            mStep = (Step) savedInstanceState.getSerializable(getString(R.string.current_step_key));
-//            mStepIndex = savedInstanceState.getInt(getString(R.string.current_step_index_key));
-//
-//            //Setting values
-//            stepPreLabelSequence.setText(String.valueOf(mStepIndex));
-//            stepPostLabelSequence.setText(String.valueOf(stepList.size() - 1));
-//            imageMedia.setImageResource(R.drawable.place_holder);
-//            stepTitle.setText(fixedShortDescription);
-//            stepDescription.setText(fixedDescription);
-//
-//            return null;
-//        }
-
-        imageMedia = rootView.findViewById(R.id.iv_media);
+        ImageView imageMedia = rootView.findViewById(R.id.iv_media);
         mPlayerView = rootView.findViewById(R.id.player_view);
-        stepTitle = rootView.findViewById(R.id.tv_step_title_sequence);
-        stepPreLabelSequence = rootView.findViewById(R.id.tv_step_pre_label_sequence);
-        stepPostLabelSequence = rootView.findViewById(R.id.tv_step_post_label_sequence);
-        stepDescription = rootView.findViewById(R.id.tv_step_description_sequence);
+        TextView stepTitle = rootView.findViewById(R.id.tv_step_title_sequence);
+        TextView stepPreLabelSequence = rootView.findViewById(R.id.tv_step_pre_label_sequence);
+        TextView stepPostLabelSequence = rootView.findViewById(R.id.tv_step_post_label_sequence);
+        TextView stepDescription = rootView.findViewById(R.id.tv_step_description_sequence);
         TextView divisor = rootView.findViewById(R.id.tv_step_divisor_label_sequence);
         View linearLayoutButton = rootView.findViewById(R.id.linear_layout_button);
         Button nextButtonSolo = rootView.findViewById(R.id.btn_next_solo);
         Button prevButtonSolo = rootView.findViewById(R.id.btn_prev_solo);
 
-        //Getting the list of steps
-        stepList = mRecipe.getSteps();
-
+        //Getting the list of steps to define its total length
+        List<Step> stepList = mRecipe.getSteps();
         //Hiding the step number in the text "description"
-        fixedDescription = fixDescription();
-
+        String fixedDescription = fixDescription();
         //Hiding the last dot in the text "short description"
-        fixedShortDescription = fixShortDescription();
+        String fixedShortDescription = fixShortDescription();
 
         if (mStepIndex == 0) {
             //Hiding step sequence and recipe description in "Recipe Introduction" layouts

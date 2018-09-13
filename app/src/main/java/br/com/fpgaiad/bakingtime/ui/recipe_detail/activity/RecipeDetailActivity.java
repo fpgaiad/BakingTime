@@ -18,8 +18,14 @@ public class RecipeDetailActivity extends BaseStepActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
 
-        recipe = getIntent().getParcelableExtra(getString(R.string.recipe_extra));
-        stepIndex = getIntent().getIntExtra(getString(R.string.step_index_extra), 0);
+//        if (savedInstanceState != null) {
+//            recipe = savedInstanceState.getParcelable(getString(R.string.current_recipe_key));
+//            stepIndex = savedInstanceState.getInt(getString(R.string.current_step_index_key));
+//        } else {
+            recipe = getIntent().getParcelableExtra(getString(R.string.recipe_extra));
+            //stepIndex is not necessary here
+//            stepIndex = getIntent().getIntExtra(getString(R.string.step_index_extra), 0);
+//        }
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -34,11 +40,11 @@ public class RecipeDetailActivity extends BaseStepActivity
             mTwoPane = false;
         }
 
-        RecipeDetailFragment detailFragment = new RecipeDetailFragment();
-        detailFragment.setRecipe(recipe);
+        RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+        recipeDetailFragment.setRecipe(recipe);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.detail_container, detailFragment)
+                .add(R.id.detail_container, recipeDetailFragment)
                 .commit();
     }
 
@@ -48,7 +54,7 @@ public class RecipeDetailActivity extends BaseStepActivity
 
         if (!mTwoPane) {
             Intent intent = new Intent(this, RecipeStepsActivity.class);
-            intent.putExtra(getString(R.string.step_extra), step);
+//            intent.putExtra(getString(R.string.step_extra), step);
             intent.putExtra(getString(R.string.recipe_extra), recipe);
             intent.putExtra(getString(R.string.step_index_extra), position);
             startActivity(intent);
@@ -56,4 +62,10 @@ public class RecipeDetailActivity extends BaseStepActivity
             showStepFragment(recipe, position);
         }
     }
+
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putParcelable(getString(R.string.current_recipe_key), recipe);
+//    }
 }

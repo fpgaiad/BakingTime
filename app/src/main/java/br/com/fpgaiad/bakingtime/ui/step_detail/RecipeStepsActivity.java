@@ -20,7 +20,6 @@ public class RecipeStepsActivity extends BaseStepActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(recipe.getName());
         }
-
         showStepFragment(recipe, stepIndex);
     }
 }

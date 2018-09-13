@@ -5,8 +5,7 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Ingredient implements Serializable
-{
+public class Ingredient implements Serializable {
 
     @SerializedName("quantity")
     @Expose
@@ -18,6 +17,10 @@ public class Ingredient implements Serializable
     @Expose
     private String ingredient;
     private final static long serialVersionUID = -1896762863245239858L;
+
+    public Ingredient(String ingredient) {
+        this.ingredient = ingredient;
+    }
 
     public int getQuantity() {
         return quantity;
