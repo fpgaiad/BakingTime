@@ -3,13 +3,11 @@
     <string name="servings_label">servings:</string>
     <string name="callback_error">Error with Json Callback - Recipes</string>
     <string name="recipe_extra">recipe</string>
-    <string name="step_extra">step</string>
     <string name="simple_dot">.</string>
     <string name="recipe_name">Recipe Name</string>
     <string name="ingredients_label">RECIPE INGREDIENTS</string>
     <string name="current_recipe_key">current_recipe</string>
     <string name="step_label">STEP</string>
-    <string name="subtitle_color">#666666</string>
     <string name="previous_button">PREVIOUS</string>
     <string name="next_button">NEXT</string>
     <string name="step_index_extra">step_index</string>
@@ -17,7 +15,6 @@
     <string name="current_step_key">current_step</string>
     <string name="current_step_index_key">current_step_index</string>
     <string name="appwidget_text">Baking App</string>
-    <string name="add_widget">Add widget</string>
     <string name="nutella_pie">Nutella Pie</string>
     <string name="baking_time">Baking Time</string>
 </resources>

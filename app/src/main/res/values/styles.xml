@@ -8,4 +8,6 @@
         <item name="colorAccent">#333</item>
     </style>
 
+    <style name="Theme">light</style>
+
 </resources>
