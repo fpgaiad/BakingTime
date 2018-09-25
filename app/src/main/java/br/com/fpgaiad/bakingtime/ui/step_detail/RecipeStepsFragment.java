@@ -1,13 +1,12 @@
 package br.com.fpgaiad.bakingtime.ui.step_detail;
 
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ import java.util.List;
 import br.com.fpgaiad.bakingtime.R;
 import br.com.fpgaiad.bakingtime.entities.Recipe;
 import br.com.fpgaiad.bakingtime.entities.Step;
-import br.com.fpgaiad.bakingtime.ui.recipe_detail.activity.RecipeDetailActivity;
 
 public class RecipeStepsFragment extends Fragment {
 
@@ -44,6 +42,9 @@ public class RecipeStepsFragment extends Fragment {
     public Recipe mRecipe;
     public int mStepIndex;
     boolean isUrlEmpty;
+    long currentPosition;
+    boolean playWhenReady = true;
+    MediaSource mediaSource;
     SimpleExoPlayer mExoPlayer;
     SimpleExoPlayerView mPlayerView;
 
@@ -142,10 +143,11 @@ public class RecipeStepsFragment extends Fragment {
 
             //Prepare the MediaSource
             String userAgent = Util.getUserAgent(getContext(), "Baking Time");
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
+            mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.seekTo(currentPosition);
+            mExoPlayer.setPlayWhenReady(playWhenReady);
         }
     }
 
@@ -173,12 +175,13 @@ public class RecipeStepsFragment extends Fragment {
         outState.putParcelable(getString(R.string.current_recipe_key), mRecipe);
         outState.putSerializable(getString(R.string.current_step_key), mStep);
         outState.putInt(getString(R.string.current_step_index_key), mStepIndex);
+        outState.putLong(getString(R.string.current_position), currentPosition);
+        outState.putBoolean(getString(R.string.play_when_ready), playWhenReady);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        releasePlayer();
     }
 
     @Override
@@ -190,11 +193,33 @@ public class RecipeStepsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        releasePlayer();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            // initializing player
+            Uri mediaUri = Uri.parse(mStep.getVideoURL());
+            initializePlayer(mediaUri);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
+            // initializing player
+            Uri mediaUri = Uri.parse(mStep.getVideoURL());
+            initializePlayer(mediaUri);
+        }
     }
 
     private void releasePlayer() {
         if (mExoPlayer != null) {
+            //retrieve the playback state
+            currentPosition = mExoPlayer.getCurrentPosition();
+            playWhenReady = mExoPlayer.getPlayWhenReady();
             mExoPlayer.stop();
             mExoPlayer.release();
             mExoPlayer = null;

@@ -17,4 +17,6 @@
     <string name="appwidget_text">Baking App</string>
     <string name="nutella_pie">Nutella Pie</string>
     <string name="baking_time">Baking Time</string>
+    <string name="current_position">current_position_exoplayer</string>
+    <string name="play_when_ready">play_when_ready</string>
 </resources>
