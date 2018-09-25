@@ -199,9 +199,7 @@ public class RecipeStepsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         if (Util.SDK_INT > 23) {
-            // initializing player
-            Uri mediaUri = Uri.parse(mStep.getVideoURL());
-            initializePlayer(mediaUri);
+            reInitializePlayer();
         }
     }
 
@@ -209,9 +207,7 @@ public class RecipeStepsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
-            // initializing player
-            Uri mediaUri = Uri.parse(mStep.getVideoURL());
-            initializePlayer(mediaUri);
+            reInitializePlayer();
         }
     }
 
@@ -224,5 +220,11 @@ public class RecipeStepsFragment extends Fragment {
             mExoPlayer.release();
             mExoPlayer = null;
         }
+    }
+
+    private void reInitializePlayer() {
+        Uri mediaUri = Uri.parse(mStep.getVideoURL());
+        initializePlayer(mediaUri);
+
     }
 }
