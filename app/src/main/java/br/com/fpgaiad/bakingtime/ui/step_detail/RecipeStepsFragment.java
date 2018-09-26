@@ -127,6 +127,12 @@ public class RecipeStepsFragment extends Fragment {
         stepTitle.setText(fixedShortDescription);
         stepDescription.setText(fixedDescription);
 
+        if (savedInstanceState != null) {
+            currentPosition = savedInstanceState.getLong(getString(R.string.current_position));
+            playWhenReady = savedInstanceState.getBoolean(getString(R.string.play_when_ready));
+        }
+
+
 //        mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.place_holder));
         initializePlayer(Uri.parse(mStep.getVideoURL()));
 
